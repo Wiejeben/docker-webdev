@@ -1,0 +1,47 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: laravel-docker
+    volumes:
+      - .:/srv/app
+    links:
+      - mysql
+      - redis
+    networks:
+      - default
+      - nginx-proxy
+    environment:
+      VIRTUAL_HOST: laravel.dev
+      DB_HOST: mysql
+      DB_DATABASE: laravel_docker
+      DB_USERNAME: app
+      DB_PASSWORD: password
+      REDIS_HOST: redis
+      SESSION_DRIVER: redis
+      CACHE_DRIVER: redis
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 13306:3306
+    networks:
+      - default
+    environment:
+      MYSQL_DATABASE: laravel_docker
+      MYSQL_USER: app
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+  redis:
+    image: redis:4.0-alpine
+    networks:
+      - default
+    ports:
+      - 16379:6379
+
+networks:
+  default:
+    driver: bridge
+  nginx-proxy:
+    external: true
