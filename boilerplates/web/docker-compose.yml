@@ -15,8 +15,6 @@ services:
       XDEBUG_CONFIG: remote_port=${XDEBUG_PORT}
   mysql:
     image: mysql:5.7
-    expose:
-     - 3306
     ports:
       - 13306:3306
     environment:
