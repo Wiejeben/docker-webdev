@@ -8,6 +8,7 @@ services:
     ports:
       - 80:80
     volumes:
+      - ./proxy-settings.conf:/etc/nginx/conf.d/proxy-settings.conf:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - nginx-proxy
