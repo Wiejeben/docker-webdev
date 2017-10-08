@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3'
 
 services:
   app:
@@ -12,6 +12,7 @@ services:
       - nginx-proxy
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
+      XDEBUG_CONFIG: remote_port=${XDEBUG_PORT}
   mysql:
     image: mysql:5.7
     expose:
