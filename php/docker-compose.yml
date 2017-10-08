@@ -4,27 +4,19 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    image: php-docker
     volumes:
       - .:/srv/app
-    links:
-      - mysql
-      - redis
     networks:
       - default
       - nginx-proxy
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
-      DB_HOST: mysql
-      REDIS_HOST: redis
-      SESSION_DRIVER: redis
-      CACHE_DRIVER: redis
   mysql:
     image: mysql:5.7
+    expose:
+     - 3306
     ports:
       - 13306:3306
-    networks:
-      - default
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
@@ -32,13 +24,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
   redis:
     image: redis:4.0-alpine
-    networks:
-      - default
     ports:
       - 16379:6379
 
 networks:
-  default:
-    driver: bridge
   nginx-proxy:
     external: true
