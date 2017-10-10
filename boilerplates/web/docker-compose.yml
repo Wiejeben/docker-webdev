@@ -6,12 +6,13 @@ services:
     volumes:
       - ./.docker/apache.conf:/etc/apache2/sites-available/000-default.conf:ro
       - ./.docker/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
-      - .:/srv/app
+      - .:/srv/app:delegated
     networks:
       - default
       - nginx-proxy
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
+      PHP_XDEBUG_ENABLED: ${XDEBUG_ENABLE}
       XDEBUG_CONFIG: remote_port=${XDEBUG_PORT}
   mysql:
     image: mysql:5.7
