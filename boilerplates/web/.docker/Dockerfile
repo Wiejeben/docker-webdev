@@ -14,7 +14,7 @@ RUN apt-get update && \
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install -j$(nproc) mbstring pdo pdo_mysql mcrypt gd iconv && \
+    docker-php-ext-install -j$(nproc) mbstring pdo pdo_mysql mcrypt gd iconv opcache && \
     pecl install xdebug-stable imagick && \
     docker-php-ext-enable xdebug imagick
 
