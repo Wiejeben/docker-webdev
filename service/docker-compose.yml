@@ -3,15 +3,12 @@ version: '3'
 services:
   proxy:
     container_name: nginx-proxy
-    image: jwilder/nginx-proxy
+    image: jwilder/nginx-proxy:alpine
     restart: always
     ports:
       - 80:80
     volumes:
-      - ./proxy-settings.conf:/etc/nginx/conf.d/proxy-settings.conf:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    networks:
-      - nginx-proxy
   portainer:
     container_name: portainer
     image: portainer/portainer
@@ -20,9 +17,8 @@ services:
       - VIRTUAL_HOST=portainer.dev
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - nginx-proxy
 
 networks:
-  nginx-proxy:
-    external: true
+  default:
+    external:
+      name: nginx-proxy
