@@ -5,7 +5,7 @@ services:
     image: nginx:stable-alpine
     volumes:
       - ./.docker/nginx/site.conf:/etc/nginx/conf.d/000-default.conf:ro
-      - ./.docker/nginx/helpers:/etc/nginx/helpers:ro
+      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./app:/srv/app:delegated
     networks:
       - default
@@ -14,7 +14,7 @@ services:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
 
   php:
-    build: .docker
+    image: wiejeben/php:7.1
     volumes:
       - ./.docker/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - ./app:/srv/app:delegated
