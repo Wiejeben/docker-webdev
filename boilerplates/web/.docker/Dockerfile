@@ -1,5 +1,9 @@
 FROM php:7.1-fpm-alpine
 
+# Copy scripts and configuration
+COPY start-container.sh /usr/local/bin/start-container
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
+
 # Setup working directory
 RUN mkdir /srv/app && chown -R www-data:www-data /srv/app
 WORKDIR /srv/app
@@ -40,5 +44,4 @@ RUN set -x \
     && pecl install xdebug-stable \
     && apk del .phpize-deps
 
-COPY start-container.sh /usr/local/bin/start-container
 CMD ["start-container"]
