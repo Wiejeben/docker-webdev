@@ -19,8 +19,9 @@ services:
       - ./.docker/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - ./app:/srv/app:delegated
     environment:
-      PHP_XDEBUG_ENABLED: ${XDEBUG_ENABLE}
       XDEBUG_CONFIG: remote_port=${XDEBUG_PORT}
+      XDEBUG_ENABLE: ${XDEBUG_ENABLE}
+      REDIS_ENABLE: ${REDIS_ENABLE}
 
   redis:
     image: redis:4.0-alpine
