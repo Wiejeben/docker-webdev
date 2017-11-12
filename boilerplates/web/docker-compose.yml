@@ -6,10 +6,11 @@ services:
     volumes:
       - ./.docker/nginx/site.conf:/etc/nginx/conf.d/000-default.conf:ro
       - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./app:/srv/app:delegated
+      - ./app:/srv/app:${VOLUME_CACHING}
     networks:
       - default
       - nginx-proxy
+    restart: ${RESTART_POLICY}
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
 
@@ -17,14 +18,17 @@ services:
     image: wiejeben/php:7.1
     volumes:
       - ./.docker/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
-      - ./app:/srv/app:delegated
+      - ./app:/srv/app:${VOLUME_CACHING}
+    restart: ${RESTART_POLICY}
     environment:
       XDEBUG_CONFIG: remote_port=${XDEBUG_PORT}
       XDEBUG_ENABLE: ${XDEBUG_ENABLE}
       REDIS_ENABLE: ${REDIS_ENABLE}
+      COMPOSER_ENABLE: ${COMPOSER_ENABLE}
 
   redis:
     image: redis:4.0-alpine
+    restart: ${RESTART_POLICY}
 
 networks:
   nginx-proxy:
