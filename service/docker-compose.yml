@@ -1,14 +1,6 @@
 version: '3'
 
 services:
-  proxy:
-    container_name: nginx-proxy
-    image: jwilder/nginx-proxy:alpine
-    restart: always
-    ports:
-      - 80:80
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
   portainer:
     container_name: portainer
     image: portainer/portainer
@@ -18,7 +10,33 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
+  proxy:
+    container_name: nginx-proxy
+    image: jwilder/nginx-proxy:alpine
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/mysql.conf:/etc/mysql/conf.d/mysql.conf:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+
 networks:
-  default:
-    external:
-      name: nginx-proxy
+  nginx-proxy:
+    external: true
+  mysql:
+    external: true

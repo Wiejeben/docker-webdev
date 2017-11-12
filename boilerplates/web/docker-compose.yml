@@ -19,6 +19,9 @@ services:
     volumes:
       - ./.docker/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - ./app:/srv/app:${VOLUME_CACHING}
+    networks:
+      - default
+      - mysql
     restart: ${RESTART_POLICY}
     environment:
       XDEBUG_CONFIG: remote_port=${XDEBUG_PORT}
@@ -32,4 +35,6 @@ services:
 
 networks:
   nginx-proxy:
+    external: true
+  mysql:
     external: true
