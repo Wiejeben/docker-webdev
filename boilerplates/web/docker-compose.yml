@@ -6,7 +6,7 @@ services:
     volumes:
       - ./.docker/nginx/helpers:/etc/nginx/helpers:ro
       - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./app:/srv/app:${VOLUME_CACHING}
+      - ./app/public:/srv/app/public:${VOLUME_CACHING}
     networks:
       - default
       - nginx-proxy
