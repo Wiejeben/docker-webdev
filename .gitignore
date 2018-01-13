@@ -1,2 +1,2 @@
 .env
-service/mysql/data
+server/mysql/data
