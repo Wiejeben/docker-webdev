@@ -5,6 +5,7 @@ services:
     container_name: portainer
     image: portainer/portainer
     restart: always
+    command: ${PORTAINER_CMD}
     ports:
       - 9000:9000
     volumes:

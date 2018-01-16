@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  web:
+  nginx:
     image: nginx:stable-alpine
     volumes:
-      - ./.docker/nginx/helpers:/etc/nginx/helpers:ro
-      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./app/public:/srv/app/public:${VOLUME_CACHING}
+      - ./.docker/nginx/helpers:/etc/nginx/helpers:${VOLUME_CACHING}
+      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:${VOLUME_CACHING}
+      - .:/srv/app:${VOLUME_CACHING}
     networks:
       - default
       - nginx-proxy
@@ -15,23 +15,25 @@ services:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
 
   php:
-    image: wiejeben/php:7.1
+    image: wiejeben/php:7.2
     volumes:
-      - ./.docker/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
-      - ./app:/srv/app:${VOLUME_CACHING}
+      - ./.docker/php.ini:/usr/local/etc/php/conf.d/php.ini:${VOLUME_CACHING}
+      - .:/srv/app:${VOLUME_CACHING}
     networks:
       - default
       - mysql
     restart: ${RESTART_POLICY}
     environment:
       XDEBUG_CONFIG: remote_port=${XDEBUG_PORT}
-      XDEBUG_ENABLE: ${XDEBUG_ENABLE}
-      REDIS_ENABLE: ${REDIS_ENABLE}
-      COMPOSER_ENABLE: ${COMPOSER_ENABLE}
-
-  redis:
-    image: redis:4.0-alpine
-    restart: ${RESTART_POLICY}
+      COMPOSER_ENV: ${ENVIRONMENT}
+      COMPOSER_ENABLE: 0
+      EXT_PDO_MYSQL: 0
+      EXT_IMAGICK: 0
+      EXT_ZIP: 0
+      EXT_INTL: 0
+      EXT_XDEBUG: 0
+      EXT_REDIS: 0
+      EXT_MCRYPT: 0
 
 networks:
   nginx-proxy:
