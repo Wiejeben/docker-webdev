@@ -7,6 +7,9 @@ services:
     networks:
       - nginx-proxy
     restart: ${RESTART_POLICY}
+    environment:
+      JENKINS_HOST_HOME: "/data"
+    user: jenkins
     volumes:
       - ./data:/var/jenkins_home:${VOLUME_CACHING}
       - /var/run/docker.sock:/var/run/docker.sock
