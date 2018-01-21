@@ -6,6 +6,8 @@ services:
     image: jenkinsci/blueocean
     networks:
       - nginx-proxy
+    ports:
+      - 8080:8080
     restart: ${RESTART_POLICY}
     environment:
       JENKINS_HOST_HOME: "/data"
