@@ -23,6 +23,7 @@ services:
       - nginx-proxy
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx/default_location:/etc/nginx/vhost.d/default_location:ro
 
   mysql:
     container_name: mysql
