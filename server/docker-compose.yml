@@ -38,6 +38,20 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
 
+  mysql8:
+    container_name: mysql8
+    image: mysql:8
+    restart: always
+    ports:
+      - 3308:3306
+    networks:
+      - mysql
+    volumes:
+      - ./mysql8/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
+      # - ./mysql8/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+
 networks:
   nginx-proxy:
     external: true
